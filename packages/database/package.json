@@ -1,0 +1,17 @@
+{
+  "name": "@xeno/database",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "seed": "tsx src/seed.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.3.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

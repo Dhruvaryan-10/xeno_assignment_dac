@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 228 30% 97%;
+  --foreground: 230 25% 10%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 230 25% 10%;
+
+  --muted: 225 20% 94%;
+  --muted-foreground: 225 12% 42%;
+
+  --border: 225 18% 88%;
+  --input: 225 18% 88%;
+
+  /* Electric Blue */
+  --primary: 223 100% 60%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Purple Glow */
+  --ring: 265 90% 65%;
+}
+
+.dark {
+  /* Deep Space */
+  --background: 230 35% 7%;
+  --foreground: 210 30% 96%;
+
+  /* Elevated Panels */
+  --card: 228 28% 11%;
+  --card-foreground: 210 30% 96%;
+
+  --muted: 228 20% 15%;
+  --muted-foreground: 220 15% 72%;
+
+  --border: 228 18% 20%;
+  --input: 228 18% 20%;
+
+  /* Neon Blue */
+  --primary: 223 100% 65%;
+  --primary-foreground: 230 35% 7%;
+
+  /* Purple Accent */
+  --ring: 270 95% 70%;
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.recharts-wrapper * {
+  outline: none;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.neon-glow {
+  box-shadow:
+    0 0 10px rgba(80, 120, 255, 0.4),
+    0 0 25px rgba(80, 120, 255, 0.3),
+    0 0 40px rgba(170, 80, 255, 0.2);
+}

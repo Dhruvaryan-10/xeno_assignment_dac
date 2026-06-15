@@ -1,0 +1,112 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id               String   @id @default(cuid())
+  name             String
+  email            String   @unique
+  phone            String
+  city             String
+  age              Int
+  preferredChannel String
+  totalSpend       Float    @default(0)
+  lastPurchaseDate DateTime?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  orders         Order[]
+  communications Communication[]
+
+  @@index([city])
+  @@index([totalSpend])
+  @@index([lastPurchaseDate])
+  @@index([preferredChannel])
+}
+
+model Order {
+  id         String   @id @default(cuid())
+  customerId String
+  amount     Float
+  category   String
+  orderDate  DateTime
+  createdAt  DateTime @default(now())
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@index([customerId])
+  @@index([orderDate])
+}
+
+model SegmentHistory {
+  id             String   @id @default(cuid())
+  prompt         String
+  filtersJson    String
+  audienceSize   Int
+  averageSpend   Float
+  estimatedRevenue Float
+  createdAt      DateTime @default(now())
+}
+
+model Campaign {
+  id              String         @id @default(cuid())
+  title           String
+  subjectLine     String
+  messageBody     String
+  cta             String
+  channel         String
+  status          String @default("DRAFT")
+  audiencePrompt  String
+  filtersJson     String
+  audienceSize    Int
+  estimatedRevenue Float
+  aiReasoning     String
+  confidence      Float
+  createdAt       DateTime       @default(now())
+  launchedAt      DateTime?
+  updatedAt       DateTime       @updatedAt
+
+  communications Communication[]
+  events         CommunicationEvent[]
+}
+
+model Communication {
+  id         String              @id @default(cuid())
+  campaignId String
+  customerId String
+  channel    String
+  payloadJson String
+  status     String @default("QUEUED")
+  providerMessageId String?
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  events   CommunicationEvent[]
+
+  @@index([campaignId])
+  @@index([customerId])
+  @@index([status])
+}
+
+model CommunicationEvent {
+  id              String              @id @default(cuid())
+  campaignId      String
+  communicationId String
+  status          String
+  metadataJson    String?
+  occurredAt      DateTime            @default(now())
+
+  campaign      Campaign      @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  communication Communication @relation(fields: [communicationId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId])
+  @@index([communicationId])
+  @@index([status])
+}
